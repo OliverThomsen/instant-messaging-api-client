@@ -1,0 +1,19 @@
+{
+  "name": "instant-messaging",
+  "version": "1.0.0",
+  "description": "A JavaScript client library to create instant messaging applications",
+  "main": "instant-messaging.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OliverThomsen/instant-messaging-api-client.git"
+  },
+  "author": "Oliver Elleman Thomsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OliverThomsen/instant-messaging-api-client/issues"
+  },
+  "homepage": "https://github.com/OliverThomsen/instant-messaging-api-client#readme"
+}
