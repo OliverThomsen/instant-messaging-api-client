@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/OliverThomsen/instant-messaging-api-client/issues"
   },
-  "homepage": "https://github.com/OliverThomsen/instant-messaging-api-client#readme"
+  "homepage": "https://github.com/OliverThomsen/instant-messaging-api-client#readme",
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  }
 }
