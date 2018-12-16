@@ -1,6 +1,6 @@
 import SocketIOClient from 'socket.io-client'
 
-const _root = 'http://localhost:3000';
+const _root = 'https://instant-messaging-api.herokuapp.com';
 const _rootApi = `${_root}/api`;
 const _headers =  {
 	'Accept': 'application/json',
