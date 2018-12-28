@@ -51,7 +51,7 @@ function _openSocket() {
 
 function _emit(event, chatID, data) {
 	_events[event].forEach(obj => {
-		if (obj.chatID === chatID) {
+		if (obj.chatID === chatID || ! obj.chatID) {
 			obj.callback(data)
 		}
 	});
@@ -80,25 +80,60 @@ function _addDirection(message) {
 }
 
 
-export let socket = {
-	sendMessage(content, chatID) {
-		_io.emit('message', { content, chatID })
-	},
+function _sendMessage(content, chatID) {
+	if (!chatID) return;
+	_io.emit('message', { content, chatID })
+}
 
-	sendTyping(chatID) {
-		_io.emit('typing', { chatID })
-	},
 
-	on(event, chatID, callback) {
-		if (! _events[event]) return;
+function _sendTyping(chatID) {
+	if (!chatID) return;
+	_io.emit('typing', { chatID })
+}
+
+
+function _on(event, chatID, callback) {
+	if (! _events[event]) return;
+	if (chatID) {
 		_events[event].push({chatID, callback});
-	},
+	} else {
+		_events[event].push({callback});
+		console.log(_events);
+	}
 
-	unsubscribe(chatID, event) {
-		if (! _events[event]) return;
-		_events[event] = _events[event].filter(obj => obj.chatID !== chatID);
-	},
-};
+	return {
+		unsubscribe: function() {
+			_events[event] = _events[event].filter(obj => obj.callback !== callback)
+		}
+	}
+}
+
+
+function _unsubscribe(chatID, event) {
+	if (! _events[event]) return;
+	_events[event] = _events[event].filter(obj => obj.chatID !== chatID);
+}
+
+
+export function socket(chatID) {
+	return {
+		sendMessage(content) {
+			_sendMessage(content, chatID);
+		},
+
+		sendTyping() {
+			_sendTyping(chatID);
+		},
+
+		on(event, callback) {
+			return _on(event, chatID, callback);
+		},
+
+		unsubscribe(event) {
+			_unsubscribe(chatID, event)
+		},
+	};
+}
 
 
 export async function logIn(username) {
